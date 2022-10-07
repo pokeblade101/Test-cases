@@ -20,19 +20,29 @@ class ViewTest extends TestCase
 
     public function testSetTemplate() : void
     {
-        $this->$view->setTemplate('viewTemplate');
-        $assertEquals('viewTemplate', $this->$view->getTemplate(), 'Template name was not set');
-    }
+        $mockObj = $this->getMockBuilder(View::class)->onlyMethods(['setTemplate'])->getMock();
 
+        $mockObj->expects($this->exactly(1))->method('setTemplate')->with($this->isType('string'));
+
+        $mockObj->setTemplate("courses");
+    }
+    
     public function testDisplay() : void
     {
-        $assertFalse('', $this->$view->getTemplate(), 'Template name is empty');
+        $mockObj = $this->getMockBuilder(View::class)->onlyMethods(['display'])->getMock();
 
+        $mockObj->expects($this->exactly(1))->method('display')->will($this->returnValue('string'));
+
+        $this->assertIsString($mockObj->display());
     }
 
     public function testAddVar() : void
     {
+        $mockObj = $this->getMockBuilder(View::class)->onlyMethods(['addVar'])->getMock();
 
+        $mockObj->expects($this->exactly(1))->method('addVar')->with($this->isType('string'), $this->isType('string'));
+
+        $mockObj->addVar("courses", "Electronics");
     }
 
 }
